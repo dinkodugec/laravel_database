@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
+        /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'title',
+        'slug',
+        'description',
+        'excerpt',
+        'is_published',
+        'min_to_read'
+
+    ];
 }

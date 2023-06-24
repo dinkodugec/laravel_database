@@ -14,6 +14,14 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(PostsTableSeeder::class);
+
+       /*  $this->call([
+            PostsTableSeeder::class,
+            UsersTableSeeder::class
+        ]); Multiple seeders*/
+
+
+        
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
