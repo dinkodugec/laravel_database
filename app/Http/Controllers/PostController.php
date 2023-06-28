@@ -141,6 +141,28 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+         // Delete one row
+         DB::table('posts')
+         ->where('id', 1017)
+         ->delete();
+
+         // Delete based on multiple conditions
+        DB::table('posts')
+        ->where('id', 1014)
+        ->where('title', 'x')
+        ->delete();
+
+        // Delete all records
+        DB::table('posts')
+            ->where('id', 1000)
+            ->orWhere('id', 1001)
+            ->update([
+                'excerpt' => 'Laravel 10x',
+                'description' => 'Laravel 10x'
+            ]);
+
+        // wipe up table
+        DB::table('posts')
+            ->truncate();
     }
 }
