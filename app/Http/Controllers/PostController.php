@@ -11,23 +11,17 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-       // Count Rows
-       DB::table('posts')->count();
-       DB::table('posts')->where('is_published', true)->count();
+    {   
+        // whereNot()
+        DB::table('posts')->whereNot('min_to_read', 1)->get();
+        DB::table('posts')->whereNot('min_to_read', '>', 1)->get();
+        
 
-        // Sum
-        DB::table('posts')->sum('min_to_read');
-
-         // Average
-         DB::table('posts')->avg('min_to_read');
-         DB::table('posts')->where('is_published', true)->avg('min_to_read');
- 
-         // Max
-         DB::table('posts')->where('is_published', true)->max('min_to_read');
- 
-         // Min
-         DB::table('posts')->where('is_published', true)->min('min_to_read');
+         // orWhereNot()
+         DB::table('posts')
+         ->where('min_to_read', '>', 5)
+         ->orWhereNot('is_published', true)
+         ->get();
     }
 
     /**
