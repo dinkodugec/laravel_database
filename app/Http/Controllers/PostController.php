@@ -12,44 +12,22 @@ class PostController extends Controller
      */
     public function index()
     {
-       // Specify exactly what data you need,
-       DB::table('users')->select('name', 'email')->get(); //get() - get arrays of rows
+       // Count Rows
+       DB::table('posts')->count();
+       DB::table('posts')->where('is_published', true)->count();
 
-       // Select with alias
-       DB::table('posts')
-           ->select('title as post_title')
-           ->get();
+        // Sum
+        DB::table('posts')->sum('min_to_read');
 
-       // Return only one row with specific value
-       DB::table('posts')
-           ->distinct()
-           ->get();
-
-       // Narrow distinct down to one column
-       DB::table('posts')
-           ->select('is_published')
-           ->distinct()
-           ->get();
-
-               // first()
-        DB::table('posts')->where('id', 2)->first();
-
-        // value()
-        DB::table('posts')->where('id', 2)->value('excerpt');
-
-        // find()
-        DB::table('posts')->find(1);
-
-            // One Column
-            DB::table('posts')->pluck('title');
-
-            // Multiple Columns
-            DB::table('posts')->pluck('title','description');
-
-       // using addSelect()
-       $posts = DB::table('posts')->select('title');
-     
-       $added = $posts->addSelect('description')->get();
+         // Average
+         DB::table('posts')->avg('min_to_read');
+         DB::table('posts')->where('is_published', true)->avg('min_to_read');
+ 
+         // Max
+         DB::table('posts')->where('is_published', true)->max('min_to_read');
+ 
+         // Min
+         DB::table('posts')->where('is_published', true)->min('min_to_read');
     }
 
     /**
