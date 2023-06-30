@@ -12,19 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-
+            $table->id()->from();
             $table->foreignId('user_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-
-               /*  $table->unsignedBigInteger('user_id');
-                $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete(); 
-                OLD WAY 
-                */
+            ->constrained('users')
+            ->cascadeOnDelete();
 
             $table->string('title')
                 ->unique();;
@@ -47,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts'); 
+        Schema::dropIfExists('posts');
     }
 };
