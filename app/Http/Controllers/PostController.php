@@ -12,16 +12,34 @@ class PostController extends Controller
      */
     public function index()
     {
-        DB::transaction(function () {
-            DB::table('users')
-                ->where('id', 1)
-                ->lockForUpdate() //lock until is transaction is finished
-                ->decrement('balance', 20);
-
-                DB::table('users')
-                ->where('id', 2)
-                ->increment('balance', 20);
+   /*     $posts= DB::table('posts')
+        ->orderBy('id')
+        ->chunk(150, function($posts) {
+            //chunk() - retrives data in smaller more managable chunks rather then
+            // getting all data and chunking it afterwards
+            foreach ($posts as $post) {
+                echo $post->title;
+            }
         });
+
+        dd($posts);
+     */
+
+       // lazy()
+       $posts=  DB::table('posts')
+       ->orderBy('id')
+       ->lazy()->each(function($post) { //it brings back a lazy collection, better preformace    
+           echo $post->title;
+       });
+
+       dd($posts);
+
+         // lazilyById()  //used by retrivning a single record by id without a retriving all data from db
+         DB::table('posts')
+         ->where('id', 1)
+         ->lazyById()
+         ->first();
+    
     }
 
     /**
