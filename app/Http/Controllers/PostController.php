@@ -12,34 +12,36 @@ class PostController extends Controller
      */
     public function index()
     {
-   /*     $posts= DB::table('posts')
-        ->orderBy('id')
-        ->chunk(150, function($posts) {
-            //chunk() - retrives data in smaller more managable chunks rather then
-            // getting all data and chunking it afterwards
-            foreach ($posts as $post) {
-                echo $post->title;
-            }
-        });
+      $posts =  DB::table('posts')
+      
+        ->selectRaw('count(*) as post_count')
+        ->first();
 
-        dd($posts);
-     */
-
-       // lazy()
-       $posts=  DB::table('posts')
-       ->orderBy('id')
-       ->lazy()->each(function($post) { //it brings back a lazy collection, better preformace    
-           echo $post->title;
-       });
-
-       dd($posts);
-
-         // lazilyById()  //used by retrivning a single record by id without a retriving all data from db
-         DB::table('posts')
-         ->where('id', 1)
-         ->lazyById()
-         ->first();
     
+
+         // lazilyById()
+        // whereRaw()
+        DB::table('posts')
+            ->whereRaw('created_at > NOW() - INTERVAL 1 DAY')
+            ->get();
+
+        // havingRaw()
+        DB::table('posts')
+            ->select('user_id', DB::raw('SUM(min_to_read) as total_time'))
+            ->groupBy('user_id')
+            ->havingRaw('SUM(min_to_read) > 10')
+            ->get();
+
+        // orderByRaw()
+        DB::table('posts')
+            ->orderByRaw('created_at DESC')
+            ->get();
+
+        // groupByRaw()
+        DB::table('posts')
+            ->select('user_id', DB::raw('AVG(rating) as avg_rating'))
+            ->groupByRaw('user_id')
+            ->get();
     }
 
     /**
