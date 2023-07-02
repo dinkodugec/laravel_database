@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -24,7 +25,7 @@ class PostFactory extends Factory
         $slug = Str::slug($title, '-');
 
         return [
-            'user_id'=> $users->random(),
+            'user_id' => DB::table('users')->inRandomOrder()->value('id'),
             'title' => $title,
             'slug' => $slug,
             'excerpt' => fake()->sentence,

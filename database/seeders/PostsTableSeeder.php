@@ -13,7 +13,7 @@ class PostsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Post::factory()->times(6)->create();
+        Post::factory()->times(20)->create();
        
     }
 }
