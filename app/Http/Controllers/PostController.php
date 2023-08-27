@@ -12,9 +12,11 @@ class PostController extends Controller
      */
     public function index()
     {
-      $posts =  DB::table('posts')
-      ->whereFullText('description', 'quo')
-      ->orWhereFullText('description', 'Doloribus');
+        $posts = DB::table('posts')->paginate(10);
+
+        return view('posts.index', compact('posts'));
+
+        dd($posts);
     }
 
     /**
